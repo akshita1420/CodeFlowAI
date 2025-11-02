@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Code Reviewer 🧠</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Markdown + Highlight -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body data-page="review">
+
+<nav class="navbar">
+    <div class="nav-inner">
+        <a class="brand" href="index.html">CodeRabbit ✨</a>
+        <div class="navlinks">
+            <a class="active" href="index.html">Review</a>
+            <a href="bug-tracker.html">Bugs</a>
+            <a href="insights.html">Insights</a>
+            <a href="reports.html">Reports</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="card">
+        <h2 class="h1">AI Code Reviewer</h2>
+        <p class="subtle">Paste code, pick language, and get a helpful review with suggestions.</p>
+
+        <div class="grid cols-2 mt-2">
+            <div class="grid">
+                <select id="language" class="input">
+                    <option value="Java">Java</option>
+                    <option value="Python">Python</option>
+                    <option value="C++">C++</option>
+                    <option value="JavaScript">JavaScript</option>
+                </select>
+                <textarea id="code" placeholder="Paste your code here..."></textarea>
+                <div class="row">
+                    <button id="submitBtn" class="btn primary">Review Code</button>
+                    <button id="emailBtn" class="btn ghost">Email Review</button>
+                </div>
+                <small class="subtle">Powered by Gemini; syntax highlighted and rendered as Markdown.</small>
+            </div>
+
+            <div class="grid">
+                <div class="review-box card">
+                    <h3>Gemini Review</h3>
+                    <div id="reviewText" class="review-content mt-1 subtle">No review yet.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", ()=> hljs.configure({ignoreUnescapedHTML:true}));
+</script>
+</body>
+</html>

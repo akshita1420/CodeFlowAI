@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bugs • CodeRabbit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="bugs">
+
+<nav class="navbar">
+    <div class="nav-inner">
+        <a class="brand" href="index.html">CodeRabbitAI </a>
+        <div class="navlinks">
+            <a href="index.html">Review</a>
+            <a class="active" href="bug-tracker.html">Bugs</a>
+            <a href="insights.html">Insights</a>
+            <a href="reports.html">Reports</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="card">
+        <div class="row">
+            <h2 class="h1">Bug Tracker</h2>
+            <button id="openModal" class="btn primary right">+ New Bug</button>
+        </div>
+        <p class="subtle">Track issues detected during reviews or manual testing.</p>
+
+        <div class="mt-2">
+            <table class="table" id="bugTable">
+                <thead>
+                <tr>
+                    <th>ID</th><th>Title</th><th>Severity</th><th>Status</th><th>Language</th><th class="right">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="bugTbody"></tbody>
+            </table>
+            <div id="bugEmpty" class="subtle mt-2">No bugs yet — add one!</div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" id="bugModal">
+        <h3>Add Bug</h3>
+        <div class="grid mt-1">
+            <input id="bTitle" class="input" placeholder="Title">
+            <select id="bSeverity" class="input">
+                <option>Low</option><option>Medium</option><option>High</option>
+            </select>
+            <select id="bLanguage" class="input">
+                <option>Java</option><option>Python</option><option>C++</option><option>JavaScript</option>
+            </select>
+            <textarea id="bDesc" placeholder="Describe the issue..."></textarea>
+        </div>
+        <div class="row mt-2">
+            <button id="saveBug" class="btn primary">Save</button>
+            <button id="closeModal" class="btn ghost">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Insights • CodeRabbit</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body data-page="insights">
+
+<nav class="navbar">
+    <div class="nav-inner">
+        <a class="brand" href="index.html">CodeRabbit ✨</a>
+        <div class="navlinks">
+            <a href="index.html">Review</a>
+            <a href="bug-tracker.html">Bugs</a>
+            <a class="active" href="insights.html">Insights</a>
+            <a href="reports.html">Reports</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container grid cols-2">
+    <div class="card">
+        <h3>Bugs by Severity</h3>
+        <canvas id="severityChart" height="200"></canvas>
+    </div>
+    <div class="card">
+        <h3>Bugs by Status</h3>
+        <canvas id="statusChart" height="200"></canvas>
+    </div>
+    <div class="card">
+        <h3>Bugs by Language</h3>
+        <canvas id="langChart" height="200"></canvas>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
