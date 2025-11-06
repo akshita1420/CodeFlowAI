@@ -1,4 +1,5 @@
 pipeline {
+    // Default agent for all stages, unless overridden
     agent any
 
     environment {
@@ -6,11 +7,23 @@ pipeline {
     }
 
     stages {
+
+        // --- THIS STAGE IS NOW CORRECTED ---
         stage('Build Maven') {
+            // This tells Jenkins to run this stage inside a container
+            // that has Java 17 and Maven pre-installed.
+            agent {
+                docker {
+                    image 'maven:3.9-eclipse-temurin-17'
+                    // This 'args' line caches downloads to speed up future builds
+                    args '-v $HOME/.m2:/root/.m2'
+                }
+            }
             steps {
                 sh "mvn clean install"
             }
         }
+        // --- END OF CORRECTION ---
 
         stage('Build Docker Image') {
             steps {
