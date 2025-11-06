@@ -71,9 +71,10 @@ pipeline {
 
     // --- UPDATED POST SECTION ---
     post {
-        // This 'success' block runs only if the build is successful
         success {
             emailext (
+                // --- THIS LINE IS NEW ---
+                from: "id4akshita.1420@gmail.com",
                 subject: "SUCCESS: Build #${BUILD_NUMBER} for ${env.JOB_NAME}",
                 body: """<p>Build #${BUILD_NUMBER} for ${env.JOB_NAME} completed successfully.</p>
                        <p>Application is running at: <a href="http://3.80.110.120">http://3.80.110.120</a></p>
@@ -82,9 +83,10 @@ pipeline {
             )
         }
 
-        // This 'failure' block runs only if the build fails
         failure {
             emailext (
+                // --- THIS LINE IS NEW ---
+                from: "id4akshita.1420@gmail.com",
                 subject: "FAILURE: Build #${BUILD_NUMBER} for ${env.JOB_NAME}",
                 body: """<p>Build #${BUILD_NUMBER} for ${env.JOB_NAME} failed.</p>
                        <p>Check the console output here: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
@@ -92,7 +94,6 @@ pipeline {
             )
         }
 
-        // This 'always' block runs regardless of the build status
         always {
             sh "docker logout"
         }
