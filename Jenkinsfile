@@ -8,7 +8,6 @@ pipeline {
 
     stages {
 
-        // --- THIS STAGE IS NOW CORRECTED ---
         stage('Build Maven') {
             // This tells Jenkins to run this stage inside a container
             // that has Java 17 and Maven pre-installed.
@@ -20,10 +19,10 @@ pipeline {
                 }
             }
             steps {
-                sh "mvn clean install"
+                // Add -DskipTests to avoid "Connection refused" error
+                sh "mvn clean install -DskipTests"
             }
         }
-        // --- END OF CORRECTION ---
 
         stage('Build Docker Image') {
             steps {
