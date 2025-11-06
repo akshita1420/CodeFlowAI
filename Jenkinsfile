@@ -3,7 +3,6 @@ pipeline {
     agent any
 
     environment {
-        // --- THIS LINE IS NOW CORRECTED ---
         DOCKER_IMAGE_NAME = "as3532/code-reviewer" // Your Docker Hub username + image name
     }
 
@@ -61,7 +60,9 @@ pipeline {
                         echo "MAIL_PASSWORD=${MAIL_PASS}" >> .env
 
                         echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}" >> .env
-                        echo "BUILD_NUMBER=${env.BUILD_NUMBER}" >> .env
+
+                        # --- THIS LINE IS NOW CORRECTED ---
+                        echo "BUILD_NUMBER=${BUILD_NUMBER}" >> .env
                     '''
                 }
                 sh 'docker compose down'
