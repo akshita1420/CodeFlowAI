@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE_NAME = "as3532/code-reviewer" // Your Docker Hub username + image name
+        DOCKK_IMAGE_NAME = "as3532/code-reviewer" // Your Docker Hub username + image name
     }
 
     stages {
@@ -18,12 +18,22 @@ pipeline {
             steps {
                 sh "mvn clean install -DskipTests"
             }
+            // --- 1. ADD THIS 'post' BLOCK ---
+            // This runs after the steps and saves the 'target' directory
+            post {
+                success {
+                    stash name: 'build-artifacts', includes: 'target/'
+                }
+            }
         }
 
         stage('Build Docker Image') {
             steps {
+                // --- 2. ADD THIS 'unstash' LINE ---
+                // This restores the 'target' directory before building
+                unstash 'build-artifacts'
+
                 script {
-                    // Use "docker compose" (with a space)
                     sh "docker compose build --build-arg DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME} --build-arg BUILD_NUMBER=${env.BUILD_NUMBER}"
                 }
             }
@@ -58,7 +68,6 @@ pipeline {
                         echo "BUILD_NUMBER=${env.BUILD_NUMBER}" >> .env
                     '''
                 }
-                // Use "docker compose" (with a space)
                 sh 'docker compose down'
                 sh 'docker compose up -d'
             }
