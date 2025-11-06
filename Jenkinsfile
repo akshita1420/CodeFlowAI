@@ -9,17 +9,13 @@ pipeline {
     stages {
 
         stage('Build Maven') {
-            // This tells Jenkins to run this stage inside a container
-            // that has Java 17 and Maven pre-installed.
             agent {
                 docker {
                     image 'maven:3.9-eclipse-temurin-17'
-                    // This 'args' line caches downloads to speed up future builds
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
             steps {
-                // Add -DskipTests to avoid "Connection refused" error
                 sh "mvn clean install -DskipTests"
             }
         }
@@ -27,9 +23,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build the image using the docker-compose.yml file
-                    // and tag it with the build number
-                    sh "docker-compose build --build-arg DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME} --build-arg BUILD_NUMBER=${env.BUILD_NUMBER}"
+                    // Use "docker compose" (with a space)
+                    sh "docker compose build --build-arg DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME} --build-arg BUILD_NUMBER=${env.BUILD_NUMBER}"
                 }
             }
         }
@@ -47,7 +42,6 @@ pipeline {
 
         stage('Deploy Application') {
             steps {
-                // Inject runtime secrets into a .env file for docker-compose to use
                 withCredentials([
                     string(credentialsId: 'gemini-api-key', variable: 'GEMINI_KEY'),
                     string(credentialsId: 'db-password',    variable: 'DB_PASS'),
@@ -60,13 +54,13 @@ pipeline {
                         echo "MAIL_USERNAME=${MAIL_USER}" >> .env
                         echo "MAIL_PASSWORD=${MAIL_PASS}" >> .env
 
-                        # Pass image info to docker-compose
                         echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}" >> .env
                         echo "BUILD_NUMBER=${env.BUILD_NUMBER}" >> .env
                     '''
                 }
-                sh 'docker-compose down'
-                sh 'docker-compose up -d'
+                // Use "docker compose" (with a space)
+                sh 'docker compose down'
+                sh 'docker compose up -d'
             }
         }
     }
