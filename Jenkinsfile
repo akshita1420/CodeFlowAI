@@ -60,8 +60,6 @@ pipeline {
                         echo "MAIL_PASSWORD=${MAIL_PASS}" >> .env
 
                         echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}" >> .env
-
-                        # --- THIS LINE IS NOW CORRECTED ---
                         echo "BUILD_NUMBER=${BUILD_NUMBER}" >> .env
                     '''
                 }
@@ -71,7 +69,30 @@ pipeline {
         }
     }
 
+    // --- UPDATED POST SECTION ---
     post {
+        // This 'success' block runs only if the build is successful
+        success {
+            emailext (
+                subject: "SUCCESS: Build #${BUILD_NUMBER} for ${env.JOB_NAME}",
+                body: """<p>Build #${BUILD_NUMBER} for ${env.JOB_NAME} completed successfully.</p>
+                       <p>Application is running at: <a href="http://3.80.110.120">http://3.80.110.120</a></p>
+                       <p>Build logs are here: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
+                to: "id4akshita.1420@gmail.com"
+            )
+        }
+
+        // This 'failure' block runs only if the build fails
+        failure {
+            emailext (
+                subject: "FAILURE: Build #${BUILD_NUMBER} for ${env.JOB_NAME}",
+                body: """<p>Build #${BUILD_NUMBER} for ${env.JOB_NAME} failed.</p>
+                       <p>Check the console output here: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
+                to: "id4akshita.1420@gmail.com"
+            )
+        }
+
+        // This 'always' block runs regardless of the build status
         always {
             sh "docker logout"
         }
